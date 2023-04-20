@@ -4,6 +4,8 @@
 
 #DB
 /mongo
+mongo
+mongo/
 
 # Logs
 logs
