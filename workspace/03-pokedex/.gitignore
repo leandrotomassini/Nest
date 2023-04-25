@@ -3,8 +3,6 @@
 /node_modules
 
 #DB
-/mongo
-mongo
 mongo/
 
 # Logs
@@ -38,3 +36,6 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Env
+.env
