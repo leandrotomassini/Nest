@@ -32,4 +32,3 @@ http://localhost:3000/api/v2/seed
 ## Stack utilizado
 * MongoDB
 * Nest
-
