@@ -8,6 +8,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 
 
 import { Product, ProductImage } from './entities';
+import { User } from 'src/auth/entities/user.entity';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 
@@ -27,7 +28,7 @@ export class ProductsService {
   ) { }
 
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto, user: User) {
 
     try {
 
@@ -35,7 +36,8 @@ export class ProductsService {
 
       const product = this.productRepository.create({
         ...productDetails,
-        images: images.map(image => this.productImageRepository.create({ url: image }))
+        images: images.map(image => this.productImageRepository.create({ url: image })),
+        user
       });
 
       await this.productRepository.save(product);
@@ -98,7 +100,7 @@ export class ProductsService {
     }
   }
 
-  async update(id: string, updateProductDto: UpdateProductDto) {
+  async update(id: string, updateProductDto: UpdateProductDto, user: User) {
 
     const { images, ...toUpdate } = updateProductDto;
 
@@ -120,9 +122,10 @@ export class ProductsService {
           image => this.productImageRepository.create({ url: image })
         );
 
-      } else {
+      } 
 
-      }
+
+      product.user = user;
 
       await queryRunner.manager.save(product);
       await queryRunner.commitTransaction();
@@ -141,8 +144,7 @@ export class ProductsService {
     return this.productRepository.remove(product);
   }
 
-
-  private handleDBExceptions(error: any) {
+  private handleDBExceptions(error: any): never {
     if (error.code === '23505')
       throw new BadRequestException(error.detail);
 
@@ -150,8 +152,9 @@ export class ProductsService {
     throw new InternalServerErrorException('Unexpected error, check server logs.');
   }
 
+
   async deleteAllProducts() {
-    
+
     const query = this.productRepository.createQueryBuilder('product');
 
     try {
