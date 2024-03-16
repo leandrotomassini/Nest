@@ -1,2 +1,4 @@
-export * from './product-image.entity';
-export * from './product.entity';
+export { Product } from './product.entity';
+export { ProductImage } from './product-image.entity';
+
+
