@@ -1,8 +1,11 @@
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { ProductsModule } from './products/products.module';
 import { CommonModule } from './common/common.module';
+import { SeedModule } from './seed/seed.module';
+
 
 
 @Module( {
@@ -19,7 +22,9 @@ import { CommonModule } from './common/common.module';
       synchronize: true
     } ),
     ProductsModule,
-    CommonModule
+    CommonModule,
+    SeedModule
   ],
+  providers: [],
 } )
 export class AppModule { }
