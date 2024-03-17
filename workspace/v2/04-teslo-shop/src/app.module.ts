@@ -39,6 +39,7 @@ import { AuthModule } from './auth/auth.module';
     FilesModule,
 
     AuthModule,
+
   ],
 })
 export class AppModule {}
