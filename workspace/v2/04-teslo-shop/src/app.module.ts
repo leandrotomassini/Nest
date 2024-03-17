@@ -12,24 +12,30 @@ import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
 import { MessagesWsModule } from './messages-ws/messages-ws.module';
 
-@Module({
+@Module( {
   imports: [
     ConfigModule.forRoot(),
 
-    TypeOrmModule.forRoot({
+    TypeOrmModule.forRoot( {
+      ssl: process.env.STAGE === 'prod',
+      extra: {
+        ssl: process.env.STAGE === 'prod'
+          ? { rejectUnauthorized: false }
+          : null
+      },
       type: 'postgres',
       host: process.env.DB_HOST,
       port: +process.env.DB_PORT,
       database: process.env.DB_NAME,
       username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,      
+      password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: true,
-    }),
+    } ),
 
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname,'..','public'), 
-    }),
+    ServeStaticModule.forRoot( {
+      rootPath: join( __dirname, '..', 'public' ),
+    } ),
 
     ProductsModule,
 
@@ -44,5 +50,5 @@ import { MessagesWsModule } from './messages-ws/messages-ws.module';
     MessagesWsModule,
 
   ],
-})
-export class AppModule {}
+} )
+export class AppModule { }
